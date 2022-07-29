@@ -5,6 +5,8 @@ const ejsLayouts = require("express-ejs-layouts");
 const reminderController = require("./controller/reminder_controller");
 const authController = require("./controller/auth_controller");
 const session = require("express-session");
+const { Router } = require("express");
+const passport = require("./middleware/passport");
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -28,10 +30,10 @@ app.use(
 
 const passport = require("./middleware/passport");
 const authRoute = require("./routes/authRoute");
-// const indexRoute = require("./routes/indexRoute");
+const indexRoute = require("./routes/indexRoute");
 
 app.use(express.json());
-// app.use(expressLayouts);
+app.use(expressLayouts);
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -64,3 +66,17 @@ app.listen(3001, function () {
     "Server running. Visit: localhost:3001/reminders in your browser 🚀"
   );
 });
+
+
+
+
+
+Router.get('/github', passport.authenticate('github'));
+
+Router.get(
+  "/github/callback",
+  passport.authenticate('github'),
+  function (req,res) {
+    res.redirect('/reminder')
+  }
+)

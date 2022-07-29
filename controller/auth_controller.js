@@ -10,6 +10,8 @@ let authController = {
   },
 
   loginSubmit: (req, res) => {
+    const userModel = require("../models/userModel").userModel;
+
     const getUserByEmailIdAndPassword = (email, password) => {
       let user = userModel.findOne(email);
       if (user) {
@@ -30,6 +32,12 @@ let authController = {
     function isUserValid(user, password) {
       return user.password === password;
     }
+    
+    module.exports = {
+      getUserByEmailIdAndPassword,
+      getUserById,
+    };
+    
   },
 
   registerSubmit: (req, res) => {

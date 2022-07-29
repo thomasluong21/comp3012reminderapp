@@ -9,7 +9,7 @@ router.get("/login", forwardAuthenticated, (req, res) => res.render("login"));
 router.post(
   "/login",
   passport.authenticate("local", {
-    successRedirect: "/layout",
+    successRedirect: "/dashboard",
     failureRedirect: "/auth/login",
   })
 );
